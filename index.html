@@ -62,6 +62,16 @@
             vertical-align: middle; /* Align image with text */
             margin-left: 5px; /* Space between text and image */
         }
+        /* Countdown Timer */
+        .countdown-container {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px;
+            padding: 10px;
+            background-color: #222;
+            border-radius: 10px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -72,7 +82,13 @@
 </header>
 
 <main>
+    <!-- Countdown Timer (Placed before JOIN button) -->
+    <div class="countdown-container">
+        Webinar Starts in: <span id="countdown"></span>
+    </div>
+
     <div><a href="https://meet.google.com/vii-icii-mbw" class="button">JOIN</a></div>
+
     <img src="51.jpg" alt="Session Poster" class="poster"> <!-- Replace with actual poster URL -->
     
     <div>
@@ -85,8 +101,46 @@
 <img src="51.png" alt="Watermark Logo" class="watermark"> <!-- Replace with actual logo URL -->
 
 <footer>
-    <p>&copy; 2023 Pavan Roller Skating Association. All rights reserved to PRSC AND RITHVIK KORUTURU
+    <p>&copy; 2023 Pavan Roller Skating Association. All rights reserved to PRSC AND RITHVIK KORUTURU</p>
 </footer>
+
+<script>
+    function startCountdown() {
+        const now = new Date();
+        let targetTime = new Date();
+        targetTime.setHours(20, 0, 0, 0); // Set target to 8 PM today
+
+        // If it's already past 8 PM, set it for tomorrow
+        if (now > targetTime) {
+            targetTime.setDate(targetTime.getDate() + 1);
+        }
+
+        function updateCountdown() {
+            const currentTime = new Date();
+            const difference = targetTime - currentTime;
+
+            if (difference <= 0) {
+                document.getElementById("countdown").innerText = "Time's up!";
+                clearInterval(timerInterval);
+                return;
+            }
+
+            const hours = Math.floor(difference / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerText = 
+                `${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // Update every second
+        updateCountdown();
+        const timerInterval = setInterval(updateCountdown, 1000);
+    }
+
+    // Start the countdown when the page loads
+    window.onload = startCountdown;
+</script>
 
 </body>
 </html>
